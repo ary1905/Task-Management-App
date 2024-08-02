@@ -1,14 +1,20 @@
 # Task Management App
 
+![License](https://img.shields.io/badge/license-MIT-green)
+![Python](https://img.shields.io/badge/python-3.x-brightgreen)
+![React](https://img.shields.io/badge/react-17.x-blue)
+![Django](https://img.shields.io/badge/django-3.x-blueviolet)
+
 ## Overview
 
 The Task Management App is a full-stack application designed to help users manage their tasks efficiently. It features a React frontend, a Django backend, and utilizes PostgreSQL for data storage. The application allows users to create, update, and delete tasks, providing a user-friendly interface for managing their to-do lists.
 
 ## Features
 
-- User authentication and authorization
-- Task creation, editing, and deletion
-- Task listing with filtering and sorting options
+- ✔️ User authentication and authorization
+- ✔️ Task creation, editing, and deletion
+- ✔️ Task listing with filtering and sorting options
+- ✔️ Responsive design
 
 ## Technologies Used
 
@@ -16,6 +22,14 @@ The Task Management App is a full-stack application designed to help users manag
 - **Backend**: Django, Djoser
 - **Database**: PostgreSQL
 - **Deployment**: Render
+
+## Screenshots
+
+![Homepage](https://i.postimg.cc/vBJNRL9N/Screenshot-2024-08-02-142309.png)
+*Homepage View*
+
+![Dashboard](https://i.postimg.cc/3N2b34FJ/Screenshot-2024-08-02-141904.png)
+*Dashboard View*
 
 ## Getting Started
 
@@ -111,4 +125,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [Djoser](https://djoser.readthedocs.io/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Bootstrap](https://getbootstrap.com/)
-
