@@ -102,17 +102,31 @@ export const googleAuthenticate = (state, code) => async dispatch => {
 
         const details = {
             'state': state,
-            'code': code
+            'code': code,
+            'redirect_uri': process.env.NODE_ENV === 'production'
+                ? 'https://task-app-32zs.onrender.com/auth/o/google-oauth2/'
+                : 'http://localhost:8000/auth/o/google-oauth2/'
         };
-        const formBody = Object.keys(details).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key])).join('&');
+
+        const formBody = Object.keys(details)
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(details[key]))
+            .join('&');
+
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?${formBody}`, config);
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/`, formBody, config);
+
+            localStorage.setItem('access', res.data.access);
+            localStorage.setItem('refresh', res.data.refresh);
+
             dispatch({
                 type: GOOGLE_AUTH_SUCCESS,
                 payload: res.data
             });
+
             dispatch(load_user());
         } catch (err) {
+            console.error('Google authentication failed:', err);
+
             dispatch({
                 type: GOOGLE_AUTH_FAIL
             });
@@ -155,15 +169,19 @@ export const signup = (first_name, last_name, email, password, re_password) => a
 
     try {
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/`, body, config);
-
+        
         dispatch({
             type: SIGNUP_SUCCESS,
             payload: res.data
         });
+        
+        return { success: true, data: res.data };
     } catch (err) {
         dispatch({
             type: SIGNUP_FAIL
-        })
+        });
+        
+        return { success: false, error: err.response?.data || 'Signup failed' };
     }
 };
 

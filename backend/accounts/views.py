@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import UserAccountTasks
 
-
 class GetFirstNameAPIView(APIView):
     permission_classes = [IsAuthenticated]
 

@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signup } from '../actions/auth';
+import Loader from './Loader';
 import './CSS/SignUp/signUp.css';
-import axios from 'axios'
-
+import './CSS/PopUp/popup.css';
 
 function SignUp({ signup, isAuthenticated }) {
-	const [accountCreated, setAccountCreated] = useState(false);
 	const [formData, setFormData] = useState({
 		first_name: '',
 		last_name: '',
@@ -15,36 +14,60 @@ function SignUp({ signup, isAuthenticated }) {
 		password: '',
 		re_password: ''
 	});
+	const [showPopup, setShowPopup] = useState(false);
+	const [popupMessage, setPopupMessage] = useState('');
+	const [errorOccur, setErrorOccur] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const { first_name, last_name, email, password, re_password } = formData;
 
 	const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-	const onSubmit = e => {
+	const onSubmit = async e => {
 		e.preventDefault();
-		if (password === re_password) {
-			signup(first_name, last_name, email, password, re_password);
-			setAccountCreated(true);
-			alert('Please verify your email');
+		if (password !== re_password) {
+			setPopupMessage('Passwords do not match.');
+			setShowPopup(true);
+			setErrorOccur(true);
+			return;
 		}
-	};
-
-	const continueWithGoogle = async () => {
+		setLoading(true);
 		try {
-			const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/o/google-oauth2/?redirect_uri=http://localhost:8000`)
-
-			window.location.replace(res.data.authorization_url);
-		} catch (err) {
-
+			const response = await signup(first_name, last_name, email, password, re_password);
+			if (response.success) {
+				setPopupMessage('Please verify your email.');
+				setShowPopup(true);
+				setErrorOccur(false);
+			} else {
+				setPopupMessage(
+					'Signup failed. Possible reasons include:<ul>' +
+					'<li>Invalid email format</li>' +
+					'<li>Email Already Registered</li>' +
+					'<li>Password too weak</li>' +
+					'<li>Password contains Name or Email</li>' +
+					'<li>Passwords do not match</li>' +
+					'</ul>'
+				);
+				setShowPopup(true);
+				setErrorOccur(true);
+			}
+		} catch (error) {
+			setPopupMessage(
+				'An error occurred during signup. Possible reasons include:<ul>' +
+				'<li>Network issues</li>' +
+				'<li>Server error</li>' +
+				'<li>Invalid input</li>' +
+				'</ul>'
+			);
+			setShowPopup(true);
+			setErrorOccur(true);
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	if (isAuthenticated) {
-		return <Navigate to="/"></Navigate>
-	}
-
-	if (accountCreated) {
-		return <Navigate to="/login"></Navigate>
+		return <Navigate to="/" />;
 	}
 
 	return (
@@ -62,21 +85,21 @@ function SignUp({ signup, isAuthenticated }) {
 						</div>
 					</div>
 					<form onSubmit={e => onSubmit(e)} className='my-4' style={{ gridArea: 'signUpIp' }}>
-						<div className="signUpIp" >
+						<div className="signUpIp">
 							<input type="text" name='first_name'
 								value={first_name} required className='signUpName'
 								onChange={e => onChange(e)} placeholder='First Name'
 							/>
 						</div>
 						<br />
-						<div className="signUpIp" >
+						<div className="signUpIp">
 							<input type="text" name='last_name'
 								value={last_name} required className='signUpName'
 								onChange={e => onChange(e)} placeholder='Last Name'
 							/>
 						</div>
 						<br />
-						<div className="signUpIp" >
+						<div className="signUpIp">
 							<input type="email" name="email" required className='signUpEmail' value={email}
 								onChange={e => onChange(e)} placeholder='Email'
 							/>
@@ -98,23 +121,36 @@ function SignUp({ signup, isAuthenticated }) {
 						</div>
 					</form>
 
-					<h5 className='signUpMid' style={{ gridArea: 'signUpMid' }}>OR</h5>
-
-					<div className="signUpLink2" style={{ gridArea: 'signUpLink2' }}>
-						<button className='signUpBtn3' type='submit' onClick={continueWithGoogle}>
-							Continue With Google
-						</button>
-					</div>
-
 					<div className="signUpLink1" style={{ gridArea: 'signUpLink1' }}>
 						<p className='signUpSubs'>Already have an Account?</p>
 						<Link className='signUpBtn2' to='/login'>Login</Link>
 					</div>
-
 				</div>
 			</div>
+
+			{loading && <Loader />}
+
+			{showPopup && (
+				<div id="popup1" className="overlay">
+					<div className="popup1">
+						{errorOccur
+							?
+							<h2>Error While Creating Account</h2>
+							:
+							<h2>Account Created</h2>
+						}
+						{errorOccur
+							?
+							<a className="close" href="/signup" onClick={() => setShowPopup(false)}>&times;</a>
+							:
+							<a className="close" href="/login" onClick={() => setShowPopup(false)}>&times;</a>
+						}
+						<div className="content" dangerouslySetInnerHTML={{ __html: popupMessage }} />
+					</div>
+				</div>
+			)}
 		</div>
-	)
+	);
 }
 
 const mapStateToProps = state => ({

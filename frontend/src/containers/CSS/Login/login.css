@@ -1,3 +1,7 @@
+.loginWrapper {
+    position: relative;
+}
+
 .loginPage {
     display: flex;
     align-items: center;
@@ -10,7 +14,7 @@
 }
 
 .loginContainer {
-    margin-top: 2%;
+    margin-top: 5%;
     width: 50%;
     display: grid;
     grid-template-columns: 2fr;
@@ -21,16 +25,15 @@
 }
 
 .loginContent {
+    padding: 5%;
     justify-self: center;
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: grid;
-    grid-template-rows: 100px 230px 30px 100px 50px 50px;
+    grid-template-rows: 100px 230px 50px 50px;
     grid-template-areas:
         "loginHead"
         "loginIp"
-        "loginMid"
-        "loginLink3"
         "loginLink1"
         "loginLink2"
     ;
@@ -118,7 +121,7 @@
     cursor: pointer;
 }
 
-.loginBtn1:hover, .loginBtn3:hover {
+.loginBtn1:hover {
     text-decoration: none;
     color: #f68f28;
 }
@@ -128,22 +131,6 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-}
-
-.loginMid {
-    display: flex;
-    align-self: flex-start;
-    justify-self: center;
-    font-family: customFont1;
-    letter-spacing: 2px;
-}
-
-.loginLink3 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 5%;
-    margin-top: 4%;
 }
 
 .loginBtn2 {
@@ -162,21 +149,4 @@
     font-family: customFont1;
     font-weight: 100;
     margin: 0 1%;
-}
-
-.loginBtn3 {
-    width: 45%;
-    height: 45px;
-    border: solid 2px #f75c2374;
-    font-size: 20px;
-    letter-spacing: 2px;
-    font-weight: 100;
-    font-family: customFont1;
-    border-radius: 20px;
-    text-align: center;
-    cursor: pointer;
-    background: url("../../Images/google.png") no-repeat center center;
-    background-size: contain;
-    background-position: 5%;
-    padding-left: 5%;
 }

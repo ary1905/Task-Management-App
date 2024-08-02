@@ -10,12 +10,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = "7a3a3eeeec7b287a06f2ac0bce5261e9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+# ALLOWED_HOSTS = ["task-app-6s6p.onrender.com", "localhost:8000"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -82,8 +83,8 @@ DATABASES = {
     },
 }
 
-database_url = os.environ.get("DATABASE_URL")
-DATABASES['default'] = dj_database_url.parse(database_url)
+
+DATABASES['default'] = dj_database_url.parse("postgresql://task_management_lfcg_user:FZamVQyQOSkZpj7jiw19eQCPrwvNctcx@dpg-cqakk7rv2p9s73d3g22g-a.singapore-postgres.render.com/task_management_lfcg")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -104,6 +105,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -119,9 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static')
+    os.path.join(BASE_DIR, 'build/static'),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -184,7 +187,10 @@ DJOSER = {
     'ACTIVATION_URL' : 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL' : True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['http://localhost:8000'],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [
+        'http://localhost:8000',
+        'https://task-app-32zs.onrender.com/auth/o/google-oauth2/callback/',
+    ],
     'SERIALIZERS' : {
         'user_create' : 'accounts.serializers.UserCreateSerializer',
         'user' : 'accounts.serializers.UserCreateSerializer',
@@ -194,7 +200,8 @@ DJOSER = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000", 
+    "http://localhost:3000",
+    "https://task-app-32zs.onrender.com",
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -202,7 +209,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '916411532969-ss4p6vmdkmguk3td7pjdtptirjdjlljq.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '879479384661-snjp14jlmeh8erddpfsdluomga9eakmj.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
