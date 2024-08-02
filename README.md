@@ -1,6 +1,5 @@
 # Task Management App
 
-![License](https://img.shields.io/badge/license-MIT-green)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) 
 ![Redux](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
@@ -119,6 +118,7 @@ Feel free to open issues or submit pull requests if you have any suggestions or 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Acknowledgements
 
