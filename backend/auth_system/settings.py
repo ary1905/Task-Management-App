@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
+from time import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,13 +11,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "7a3a3eeeec7b287a06f2ac0bce5261e9"
+
+# SECRET_KEY = Your secret key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ["task-app-6s6p.onrender.com", "localhost:8000"]
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = [] Your allowed hosts
 
 
 # Application definition
@@ -83,8 +84,7 @@ DATABASES = {
     },
 }
 
-
-DATABASES['default'] = dj_database_url.parse("postgresql://task_management_lfcg_user:FZamVQyQOSkZpj7jiw19eQCPrwvNctcx@dpg-cqakk7rv2p9s73d3g22g-a.singapore-postgres.render.com/task_management_lfcg")
+DATABASES['default'] = dj_database_url.parse(" < Your Database URL here >")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -137,18 +137,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.userAccount'
 
-#email details
-''' 
-    email address = workdayzz123@gmail.com
-    password = asdfghjkl@12
-    app password = qadb vajv dxrl tknz
-'''
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'workdayzz123@gmail.com'
-EMAIL_HOST_PASSWORD = 'sxedjziimqozlvmv'
+# EMAIL_HOST_USER = <Your Email Address used for Sendind Mails from Backend >
+# EMAIL_HOST_PASSWORD = < Pasword >
 EMAIL_USE_TLS = True
 
 REST_FRAMEWORK = {
@@ -167,8 +161,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
-    # "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     'AUTH_TOKEN_CLASSES': (
         'rest_framework_simplejwt.tokens.AccessToken',
     )
@@ -189,7 +183,6 @@ DJOSER = {
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': [
         'http://localhost:8000',
-        'https://task-app-32zs.onrender.com/auth/o/google-oauth2/callback/',
     ],
     'SERIALIZERS' : {
         'user_create' : 'accounts.serializers.UserCreateSerializer',
@@ -209,7 +202,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '879479384661-snjp14jlmeh8erddpfsdluomga9eakmj.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+#If Using Googlr OAuth
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = < Google OAuth Key >
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = < Google OAuth Secret >
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
